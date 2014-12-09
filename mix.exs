@@ -14,7 +14,10 @@ defmodule Phoenix.Mixfile do
      description: """
      Elixir Web Framework targeting full-featured, fault tolerant applications
      with realtime functionality
-     """]
+     """,
+     name: "Phoenix",
+     docs: &docs/0,
+     source_url: "https://github.com/phoenixframework/phoenix"]
   end
 
   def application do
@@ -27,7 +30,7 @@ defmodule Phoenix.Mixfile do
            filter_parameters: ["password"]]]
   end
 
-  def deps do
+  defp deps do
     [{:cowboy, "~> 1.0", optional: true},
      # TODO: Bump Plug back to hex on next release
      {:plug, github: "elixir-lang/plug"},
@@ -36,5 +39,12 @@ defmodule Phoenix.Mixfile do
      {:ex_doc, "~> 0.6", only: :docs},
      {:inch_ex, "~> 0.2", only: :docs},
      {:websocket_client, github: "jeremyong/websocket_client", only: :test}]
+  end
+  
+  defp docs do
+    {ref, 0} = System.cmd("git", ["rev-parse", "--verify", "--quiet", "HEAD"])
+    [source_ref: ref,
+     main: "overview",
+     readme: true]
   end
 end
